@@ -42,40 +42,41 @@ class Board:
 		return (values[1] == values[0]) and (values[2] == values[0])
 
 	def has_winner(self, test_board = None):
-		board = test_board
-		if test_board is None:
-			board = self.board
-
-		for row in range(0,3):
-			if self._is_winner(board[row]):
-				return True
-
-		for column in range(0,3):
-			if self._is_winner([board[0][column], board[1][column], board[2][column]]):
-				return True
-
-		if self._is_winner([board[0][0], board[1][1], board[2][2]]):
-			return True
-
-		if self._is_winner([board[0][2], board[1][1], board[2][0]]):
-			return True
-
-		return False
+		return self.winner(test_board) is not None
 
 	def clear(self):
 		for row in range(0,3):
 			for column in range(0,3):
 				self.board[row][column] = ' '
 
-	def is_winning_move(self, x, y):
+	def winner(self, test_board = None):
+		board = test_board
+		if test_board is None:
+			board = self.board
+
+		for row in range(0,3):
+			if self._is_winner(board[row]):
+				return board[row][0]
+
+		for column in range(0,3):
+			candidate = [board[0][column], board[1][column], board[2][column]]
+			if self._is_winner(candidate):
+				return board[0][column]
+
+		if self._is_winner([board[0][0], board[1][1], board[2][2]]):
+			return board[0][0]
+
+		if self._is_winner([board[0][2], board[1][1], board[2][0]]):
+			return board[0][2]
+
+		return None
+
+
+	def is_winning_move(self, x, y, letter):
 		next_board = deepcopy(self.board)
 		if self.board[x][y] != ' ':
 			return False
-		next_board[x][y] = 'X'
-		if self.has_winner(next_board):
-			return True
-		next_board = deepcopy(self.board)
-		next_board[x][y] = 'O'
+		next_board[x][y] = letter
 		if self.has_winner(next_board):
 			return True
 		return False

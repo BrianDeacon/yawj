@@ -11,6 +11,9 @@ class Strategy:
     def __init__(self, board, my_letter):
         self.board = board
         self.my_letter = my_letter
+        self.your_letter = 'O'
+        if my_letter == 'O':
+            self.your_letter = 'X'
         self.corners = [(0, 0), (0, 2), (2, 0), (2, 2)]
 
     def next_move(self):
@@ -18,7 +21,13 @@ class Strategy:
             for y in range(0,3):
                 # A winning move means we should either win or defend.
                 # In either case, we need to move there.
-                if self.board.is_winning_move(x,y):
+                if self.board.is_winning_move(x,y,self.my_letter):
+                    return x, y
+        for x in range(0,3):
+            for y in range(0,3):
+                # A winning move means we should either win or defend.
+                # In either case, we need to move there.
+                if self.board.is_winning_move(x,y,self.your_letter):
                     return x, y
         #If we can't win and don't need to defend, then attack
         return self.attack()
@@ -107,6 +116,12 @@ class Strategy:
     def find_unchallenged_corner(self):
         for (x, y) in self.corners:
             if self.is_corner_unchallenged(x, y):
+                return x, y
+        return None
+
+    def find_empty_corner(self):
+        for (x, y) in self.corners:
+            if (self.board.value_at(x, y) == ' '):
                 return x, y
         return None
 

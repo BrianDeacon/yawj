@@ -46,14 +46,14 @@ class TestBoard(unittest.TestCase):
     def test_is_winning_move(self):
         self.board.X(0,0)
         self.board.X(0,1)
-        self.assertTrue(self.board.is_winning_move(0,2))
+        self.assertTrue(self.board.is_winning_move(0,2,'X'))
 
     def test_is_not_winning_move(self):
         self.board.X(0,0)
-        self.assertFalse(self.board.is_winning_move(0,1))
+        self.assertFalse(self.board.is_winning_move(0,1,'X'))
         self.board.X(0,1)
-        self.assertTrue(self.board.is_winning_move(0,2))
-        self.assertFalse(self.board.is_winning_move(1,0))
+        self.assertTrue(self.board.is_winning_move(0,2,'X'))
+        self.assertFalse(self.board.is_winning_move(1,0,'X'))
 
     def test_board_count(self):
         self.assertEqual(0, self.board.board_count());
