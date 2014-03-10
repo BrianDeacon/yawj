@@ -28,10 +28,15 @@ class Game:
 
         while not self.over():
             move = ""
-            while not (self.valid_input(move) and self.allowed_move(move)):
+            valid_input = False
+            while not valid_input:
                 move = input("Enter your move in the form x, y: ")
-                if not self.allowed_move(move):
-                    print "That space is taken."
+                valid_input = self.valid_input(move)
+                if valid_input:
+                    if not self.allowed_move(move):
+                        print "That space is taken."
+                        valid_input = False    
+                    
 
             x, y = self.parse_input(move)
             self.board.set(x, y, self.your_letter)
@@ -49,8 +54,6 @@ class Game:
         return tuple(move)
 
     def allowed_move(self, move):
-        if not self.valid_input(move):
-            return False
         x, y = self.parse_input(move)
         return self.board.value_at(x, y) == ' '
 
@@ -59,7 +62,7 @@ class Game:
             return False
         if len(the_input) != 2:
             return False
-        for item in range(0, len(the_input)):
+        for item in the_input:
             if item < 0 or item > 2:
                 return False
         return True
