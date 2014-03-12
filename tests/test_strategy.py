@@ -1,6 +1,8 @@
 import unittest
 from board import Board
 from strategy import Strategy
+import strategy
+import math
 
 class TestStrategy(unittest.TestCase):
 
@@ -85,6 +87,39 @@ class TestStrategy(unittest.TestCase):
         self.board.X(2, 2)
         self.board.O(0, 1)
         self.assertEqual((2, 1), self.strategy.next_move())
+
+    def test_has_winner(self):
+        board_string = 'OOOX  X  '
+        self.assertTrue(strategy.has_winner(board_string))
+        board_string = 'OOXXXOOXX'
+        self.assertFalse(strategy.has_winner(board_string))
+
+    def test_number_winning_combos(self): 
+        val = 'XXXOOOXXX'
+        self.assertEqual(3, strategy.number_winning_combos(val))
+        val = 'OOXXXOOXX'
+        self.assertEqual(0, strategy.number_winning_combos(val))
+        val = 'OXXXOXOXO'
+        self.assertEqual(1, strategy.number_winning_combos(val))
+
+    def test_is_winning_combo(self):
+        combo = 'XXX'
+        self.assertTrue(strategy.is_winning_combo(combo))
+        combo = 'OOO'
+        self.assertTrue(strategy.is_winning_combo(combo))
+        combo = '   '
+        self.assertFalse(strategy.is_winning_combo(combo))
+        combo = ' XX'
+        self.assertFalse(strategy.is_winning_combo(combo))
+        combo = ' OO'
+        self.assertFalse(strategy.is_winning_combo(combo))
+        combo = 'XXO'
+        self.assertFalse(strategy.is_winning_combo(combo))
+        combo = 'OOX'
+        self.assertFalse(strategy.is_winning_combo(combo))
+        combo = 'XOX'
+        self.assertFalse(strategy.is_winning_combo(combo))
+
 
 
 

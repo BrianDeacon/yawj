@@ -1,5 +1,34 @@
 from board import Board
 
+def is_winning_combo(combo):
+    return combo[0] == combo[1] and combo[0] == combo[2] and combo[0] != ' '
+
+def number_winning_combos(board_string):
+    ret_val = 0
+    ret_val = ret_val + 1 if is_winning_combo(board_string[0:3]) else ret_val
+    ret_val = ret_val + 1 if is_winning_combo(board_string[3:6]) else ret_val
+    ret_val = ret_val + 1 if is_winning_combo(board_string[6:9]) else ret_val
+
+    combo = board_string[0] + board_string[3] + board_string[6] 
+    ret_val = ret_val + 1 if is_winning_combo(combo) else ret_val
+
+    combo = board_string[1] + board_string[4] + board_string[7] 
+    ret_val = ret_val + 1 if is_winning_combo(combo) else ret_val
+
+    combo = board_string[2] + board_string[5] + board_string[8] 
+    ret_val = ret_val + 1 if is_winning_combo(combo) else ret_val
+
+    combo = board_string[0] + board_string[4] + board_string[8] 
+    ret_val = ret_val + 1 if is_winning_combo(combo) else ret_val
+
+    combo = board_string[6] + board_string[4] + board_string[2] 
+    ret_val = ret_val + 1 if is_winning_combo(combo) else ret_val
+
+    return ret_val
+
+def has_winner(board_string):
+    return number_winning_combos(board_string) > 0
+
 class Strategy:
     """This strategy stolen from here:
     http://www.wikihow.com/Win-at-Tic-Tac-Toe
